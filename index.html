@@ -150,7 +150,7 @@
             animation-delay: 0.8s;
         }
 
-        /* ====== ИГРА (Собери слово) ====== */
+        /* ====== ИГРА ====== */
         #gameArea {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 24px;
@@ -223,6 +223,7 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: 0.2s;
+            opacity: 0.7;
         }
         .player-btn:active {
             transform: scale(0.95);
@@ -231,9 +232,10 @@
             background: #a88aff;
             color: #0a0a1a;
             border-color: #a88aff;
+            opacity: 1;
         }
 
-        /* ====== ИСКРЫ (спаркли) ====== */
+        /* ====== ИСКРЫ ====== */
         .spark {
             position: fixed;
             width: 6px;
@@ -275,7 +277,7 @@
 
         <!-- ПЛЕЕР -->
         <div class="player-bar">
-            <button class="player-btn" id="playBtn">🎧 ПЛЕЕР</button>
+            <button class="player-btn active" id="stopBtn">⏹️ СТОП</button>
         </div>
 
         <!-- ИГРА -->
@@ -313,88 +315,62 @@
         startComets();
 
         // ============================================================
-        // 2. ПЛЕЕР (синтезированный лоу-фай бит через Web Audio)
+        // 2. ПЛЕЕР (твоя музыка)
         // ============================================================
-        let audioCtx = null;
+        const MUSIC_URL = 'https://raw.githubusercontent.com/horikita66x/HAKUSHI-/main/og-buda-6am-v-budapeshte-minus-skysoundcc_bKj0GFhM.mp3';
+
+        let audio = null;
         let isPlaying = false;
-        let oscNodes = [];
-        let gainNodes = [];
 
-        function initAudio() {
-            if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-        }
-
-        function playLoFi() {
-            initAudio();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            if (isPlaying) { stopLoFi(); return; }
-            isPlaying = true;
-            document.getElementById('playBtn').textContent = '⏹️ СТОП';
-            document.getElementById('playBtn').classList.add('active');
-
-            const now = audioCtx.currentTime;
-            // Бас
-            const osc1 = audioCtx.createOscillator();
-            const gain1 = audioCtx.createGain();
-            osc1.type = 'sine';
-            osc1.frequency.value = 55;
-            gain1.gain.setValueAtTime(0.25, now);
-            gain1.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
-            osc1.connect(gain1);
-            gain1.connect(audioCtx.destination);
-            osc1.start();
-            osc1.stop(now + 1.5);
-            oscNodes.push(osc1);
-            gainNodes.push(gain1);
-
-            // Мелодия (петля через таймер)
-            let noteIndex = 0;
-            const notes = [220, 247, 277, 330, 247];
-            function playNote() {
-                if (!isPlaying) return;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.value = notes[noteIndex % notes.length];
-                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.4);
-                noteIndex++;
-                if (isPlaying) setTimeout(playNote, 450);
+        function initPlayer() {
+            if (!audio) {
+                audio = new Audio(MUSIC_URL);
+                audio.loop = true;
+                audio.volume = 0.4;
             }
-            setTimeout(playNote, 200);
-            // Шум (для атмосферы)
-            const noiseBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.5, audioCtx.sampleRate);
-            const data = noiseBuffer.getChannelData(0);
-            for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = noiseBuffer;
-            const gainNoise = audioCtx.createGain();
-            gainNoise.gain.setValueAtTime(0.04, now);
-            gainNoise.gain.exponentialRampToValueAtTime(0.001, now + 2);
-            noise.connect(gainNoise);
-            gainNoise.connect(audioCtx.destination);
-            noise.start();
-            noise.stop(now + 2);
         }
 
-        function stopLoFi() {
+        function startMusic() {
+            initPlayer();
+            audio.play().catch(() => {});
+            isPlaying = true;
+            document.getElementById('stopBtn').textContent = '⏹️ СТОП';
+            document.getElementById('stopBtn').classList.add('active');
+        }
+
+        function stopMusic() {
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
             isPlaying = false;
-            document.getElementById('playBtn').textContent = '🎧 ПЛЕЕР';
-            document.getElementById('playBtn').classList.remove('active');
-            oscNodes.forEach(o => { try { o.stop(); } catch (e) {} });
-            gainNodes.forEach(g => { try { g.disconnect(); } catch (e) {} });
-            oscNodes = [];
-            gainNodes = [];
+            document.getElementById('stopBtn').textContent = '▶️ ПЛЕЕР';
+            document.getElementById('stopBtn').classList.remove('active');
         }
 
-        document.getElementById('playBtn').addEventListener('click', playLoFi);
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            if (isPlaying) stopMusic();
+            else startMusic();
+        });
+
+        // Автозапуск
+        function tryAutoPlay() {
+            initPlayer();
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('stopBtn').textContent = '⏹️ СТОП';
+                document.getElementById('stopBtn').classList.add('active');
+            }).catch(() => {});
+        }
+
+        document.addEventListener('click', () => {
+            if (!isPlaying) startMusic();
+        }, { once: true });
+
+        setTimeout(tryAutoPlay, 1000);
 
         // ============================================================
-        // 3. ИСКРЫ ПО КЛИКУ
+        // 3. ИСКРЫ
         // ============================================================
         document.addEventListener('click', (e) => {
             const x = e.clientX;
@@ -422,7 +398,7 @@
         });
 
         // ============================================================
-        // 4. ИГРА «СОБЕРИ СЛОВО» (HORIKITA)
+        // 4. ИГРА (HORIKITA)
         // ============================================================
         const targetWord = 'HORIKITA';
         let currentWord = '';
@@ -456,7 +432,6 @@
             gameStatus.textContent = 'Собери слово: HORIKITA';
 
             const letters = targetWord.split('');
-            // добавляем лишние буквы для сложности
             const extra = ['X', 'P', 'Z', 'M', 'L', 'K', 'O', 'A', 'R'];
             const pool = shuffleArray([...letters, ...extra.slice(0, 4)]);
             letterGrid.innerHTML = '';
@@ -504,8 +479,6 @@
         }
 
         resetBtn.addEventListener('click', startGame);
-
-        // запускаем игру при загрузке с небольшой задержкой
         setTimeout(startGame, 800);
     </script>
 </body>
