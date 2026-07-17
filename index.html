@@ -1,174 +1,512 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Horikita666</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>HORIKITA666</title>
     <style>
-        :root {
-            --bg-dark: #050510;
-            --star-glow: #fff;
-            --accent-start: #a88aff;
-            --accent-end: #ff7ec4;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: #0a0a1a;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             position: relative;
+            overflow: hidden;
+            touch-action: manipulation;
         }
+
         .stars {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
-            overflow: hidden;
         }
-        .star {
+
+        .stars::after {
+            content: '';
             position: absolute;
-            background: var(--star-glow);
+            width: 2px;
+            height: 2px;
             border-radius: 50%;
-            animation: twinkle infinite alternate;
+            box-shadow: 10px 20px #fff, 30px 80px #fff, 60px 40px #fff, 90px 120px #fff, 120px 60px #fff,
+                150px 200px #fff, 200px 100px #fff, 250px 300px #fff, 300px 50px #fff, 350px 180px #fff,
+                400px 250px #fff, 450px 90px #fff, 500px 350px #fff, 550px 70px #fff, 600px 220px #fff,
+                20px 400px #fff, 80px 450px #fff, 140px 380px #fff, 200px 500px #fff, 280px 420px #fff,
+                340px 550px #fff, 400px 480px #fff, 480px 600px #fff, 540px 520px #fff, 600px 650px #fff,
+                70px 700px #fff, 150px 750px #fff, 230px 680px #fff, 310px 800px #fff, 390px 720px #fff,
+                470px 850px #fff, 530px 780px #fff, 610px 900px #fff, 680px 830px #fff, 750px 950px #fff,
+                40px 100px #fff, 180px 160px #fff, 320px 280px #fff, 460px 350px #fff, 560px 440px #fff,
+                110px 570px #fff, 260px 650px #fff, 370px 740px #fff, 500px 860px #fff, 620px 940px #fff,
+                720px 400px #fff, 800px 600px #fff, 850px 200px #fff, 900px 700px #fff, 950px 300px #fff,
+                50px 50px #fff, 160px 130px #fff, 280px 230px #fff, 420px 330px #fff, 520px 430px #fff;
+            animation: twinkle 3s infinite alternate;
         }
+
         @keyframes twinkle {
-            0% { opacity: 0.4; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
         }
-        .shooting-star {
-            position: absolute;
-            top: -10px;
+
+        .comet {
+            position: fixed;
             width: 4px;
             height: 4px;
-            background: #fff;
+            background: white;
             border-radius: 50%;
-            box-shadow: 0 0 12px rgba(255,255,255,0.6),
-                        0 0 20px rgba(160,200,255,0.5);
-            animation: shoot linear forwards;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+            z-index: 1;
+            animation: cometFly linear forwards;
         }
-        @keyframes shoot {
-            0% { opacity: 0; transform: translateY(-10px) translateX(0); }
+
+        @keyframes cometFly {
+            0% { opacity: 0; transform: translateY(-20px) translateX(0); }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(calc(100vh + 20px)) translateX(20vw); }
+            100% { opacity: 0; transform: translateY(calc(100vh + 50px)) translateX(20vw); }
         }
-        .container {
+
+        .content {
             position: relative;
             z-index: 10;
-            max-width: 520px;
-            margin: 80px auto;
-            padding: 0 20px;
             text-align: center;
+            color: white;
+            padding: 1.5rem;
+            max-width: 550px;
+            width: 100%;
         }
+
         h1 {
             font-size: 3rem;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            font-weight: 800;
+            background: linear-gradient(135deg, #a88aff, #ff7ec4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 1.2rem;
             animation: glow-pulse 4s ease-in-out infinite;
         }
+
         @keyframes glow-pulse {
             0%, 100% { filter: drop-shadow(0 0 8px rgba(168, 138, 255, 0.6)); }
             50% { filter: drop-shadow(0 0 24px rgba(255, 126, 196, 0.8)); }
         }
-        .socials {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 14px;
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
-        @media (min-width: 480px) {
-            .socials { grid-template-columns: 1fr 1fr; }
-        }
+
         .btn {
-            display: block;
-            text-align: center;
-            padding: 16px;
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(4px);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border-radius: 14px;
             text-decoration: none;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.12);
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(45deg, rgba(168, 138, 255, 0.1), transparent, rgba(255, 126, 196, 0.1));
+            transition: 0.2s ease;
+            min-width: 160px;
             opacity: 0;
-            transition: opacity 0.3s;
+            animation: fadeInUp 0.6s ease forwards;
         }
+
+        .btn:nth-child(1) { animation-delay: 0.2s; }
+        .btn:nth-child(2) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .btn:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.4),
-                        0 0 16px rgba(168, 138, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            border-color: #a88aff;
+            box-shadow: 0 8px 24px rgba(168, 138, 255, 0.3);
         }
-        .btn:hover::before { opacity: 1; }
+
+        .footer {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        /* ====== ИГРА (Собери слово) ====== */
+        #gameArea {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 24px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        #gameArea.active {
+            display: flex;
+        }
+        .letter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .letter-btn {
+            background: #1a1a3a;
+            border: 1px solid #a88aff;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: 0.1s;
+            min-width: 50px;
+        }
+        .letter-btn:active {
+            transform: scale(0.9);
+            background: #a88aff;
+            color: #0a0a1a;
+        }
+        .letter-btn.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .game-status {
+            font-size: 1rem;
+            margin: 6px 0;
+            color: #ffd966;
+        }
+        .game-timer {
+            font-size: 1.2rem;
+            color: #ff7ec4;
+        }
+        #gameResult {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* ====== ПЛЕЕР ====== */
+        .player-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .player-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .player-btn:active {
+            transform: scale(0.95);
+        }
+        .player-btn.active {
+            background: #a88aff;
+            color: #0a0a1a;
+            border-color: #a88aff;
+        }
+
+        /* ====== ИСКРЫ (спаркли) ====== */
+        .spark {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            animation: sparkFly 0.7s ease-out forwards;
+        }
+        @keyframes sparkFly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.2);
+            }
+        }
+
+        @media (max-width: 500px) {
+            h1 { font-size: 2.2rem; }
+            .btn { min-width: 130px; padding: 0.6rem 1rem; font-size: 0.9rem; }
+            .letter-btn { font-size: 1.2rem; padding: 8px 12px; min-width: 40px; }
+        }
     </style>
 </head>
 <body>
-<div class="stars" id="js-stars"></div>
 
-<div class="container">
-    <h1>HORIKITA666</h1>
-    <section class="socials">
-        <a href="https://t.me/Horikita666" class="btn" target="_blank" rel="noopener noreferrer">
-            Telegram (личный)
-        </a>
-        <a href="https://t.me/+pihg7p8YKZ05OGRi" class="btn" target="_blank" rel="noopener noreferrer">
-            Чат «Alprazolam funs»
-        </a>
-    </section>
-</div>
+    <div class="stars"></div>
 
-<script>
-    const starsContainer = document.getElementById('js-stars');
+    <div class="content">
+        <h1>HORIKITA666</h1>
 
-    function createStars(count) {
-        for (let i = 0; i < count; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            const size = Math.random() * 2 + 1;
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
-            const duration = Math.random() * 3 + 2;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.left = `${x}%`;
-            star.style.top = `${y}%`;
-            star.style.animationDuration = `${duration}s`;
-            starsContainer.appendChild(star);
+        <div class="btn-group">
+            <a href="https://t.me/Horikita666" target="_blank" class="btn">📱 Telegram (личный)</a>
+            <a href="https://t.me/+pihg7p8YKZ05OGRi" target="_blank" class="btn">💬 Чат «Alprazolam funs»</a>
+        </div>
+
+        <!-- ПЛЕЕР -->
+        <div class="player-bar">
+            <button class="player-btn" id="playBtn">🎧 ПЛЕЕР</button>
+        </div>
+
+        <!-- ИГРА -->
+        <div id="gameArea">
+            <div class="game-timer" id="gameTimer">⏱️ 10 сек</div>
+            <div class="letter-grid" id="letterGrid"></div>
+            <div class="game-status" id="gameStatus">Собери слово: HORIKITA</div>
+            <div id="gameResult"></div>
+            <button class="btn" id="resetGameBtn" style="display:none;">🔄 Ещё раз</button>
+        </div>
+
+        <div class="footer">HORIKITA666 — сделано в 2025</div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. ЗВЁЗДЫ (кометы)
+        // ============================================================
+        function createComet() {
+            const comet = document.createElement('div');
+            comet.className = 'comet';
+            comet.style.left = (Math.random() * 80 + 10) + '%';
+            comet.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            comet.style.animationDelay = (Math.random() * 2) + 's';
+            document.body.appendChild(comet);
+            setTimeout(() => { if (comet.parentNode) comet.remove(); }, 6000);
         }
-    }
-
-    function spawnShootingStars() {
-        const count = Math.floor(Math.random() * 3) + 1;
-        for (let i = 0; i < count; i++) {
-            setTimeout(() => {
-                const comet = document.createElement('div');
-                comet.classList.add('shooting-star');
-                comet.style.left = `${Math.random() * 80 + 10}%`;
-                comet.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                comet.style.animationDelay = `${Math.random() * 2}s`;
-                starsContainer.appendChild(comet);
-                setTimeout(() => comet.remove(), 5000);
-            }, i * 800);
+        function startComets() {
+            const count = Math.floor(Math.random() * 2) + 1;
+            for (let i = 0; i < count; i++) setTimeout(createComet, i * 600);
+            setTimeout(startComets, 4000 + Math.random() * 3000);
         }
-        setTimeout(spawnShootingStars, 4000 + Math.random() * 4000);
-    }
+        setTimeout(createComet, 500);
+        setTimeout(createComet, 1500);
+        startComets();
 
-    createStars(120);
-    spawnShootingStars();
-</script>
+        // ============================================================
+        // 2. ПЛЕЕР (синтезированный лоу-фай бит через Web Audio)
+        // ============================================================
+        let audioCtx = null;
+        let isPlaying = false;
+        let oscNodes = [];
+        let gainNodes = [];
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playLoFi() {
+            initAudio();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (isPlaying) { stopLoFi(); return; }
+            isPlaying = true;
+            document.getElementById('playBtn').textContent = '⏹️ СТОП';
+            document.getElementById('playBtn').classList.add('active');
+
+            const now = audioCtx.currentTime;
+            // Бас
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.value = 55;
+            gain1.gain.setValueAtTime(0.25, now);
+            gain1.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start();
+            osc1.stop(now + 1.5);
+            oscNodes.push(osc1);
+            gainNodes.push(gain1);
+
+            // Мелодия (петля через таймер)
+            let noteIndex = 0;
+            const notes = [220, 247, 277, 330, 247];
+            function playNote() {
+                if (!isPlaying) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.value = notes[noteIndex % notes.length];
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+                noteIndex++;
+                if (isPlaying) setTimeout(playNote, 450);
+            }
+            setTimeout(playNote, 200);
+            // Шум (для атмосферы)
+            const noiseBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.5, audioCtx.sampleRate);
+            const data = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            const gainNoise = audioCtx.createGain();
+            gainNoise.gain.setValueAtTime(0.04, now);
+            gainNoise.gain.exponentialRampToValueAtTime(0.001, now + 2);
+            noise.connect(gainNoise);
+            gainNoise.connect(audioCtx.destination);
+            noise.start();
+            noise.stop(now + 2);
+        }
+
+        function stopLoFi() {
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = '🎧 ПЛЕЕР';
+            document.getElementById('playBtn').classList.remove('active');
+            oscNodes.forEach(o => { try { o.stop(); } catch (e) {} });
+            gainNodes.forEach(g => { try { g.disconnect(); } catch (e) {} });
+            oscNodes = [];
+            gainNodes = [];
+        }
+
+        document.getElementById('playBtn').addEventListener('click', playLoFi);
+
+        // ============================================================
+        // 3. ИСКРЫ ПО КЛИКУ
+        // ============================================================
+        document.addEventListener('click', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            for (let i = 0; i < 12; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 40 + Math.random() * 80;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - 30;
+                const size = 4 + Math.random() * 8;
+                const hue = 260 + Math.random() * 60;
+                spark.style.width = size + 'px';
+                spark.style.height = size + 'px';
+                spark.style.background = `hsl(${hue}, 80%, 70%)`;
+                spark.style.left = x + 'px';
+                spark.style.top = y + 'px';
+                spark.style.setProperty('--tx', tx + 'px');
+                spark.style.setProperty('--ty', ty + 'px');
+                spark.style.boxShadow = `0 0 8px hsla(${hue}, 80%, 70%, 0.7)`;
+                document.body.appendChild(spark);
+                setTimeout(() => { if (spark.parentNode) spark.remove(); }, 800);
+            }
+        });
+
+        // ============================================================
+        // 4. ИГРА «СОБЕРИ СЛОВО» (HORIKITA)
+        // ============================================================
+        const targetWord = 'HORIKITA';
+        let currentWord = '';
+        let gameActive = false;
+        let timer = 10;
+        let timerInterval = null;
+
+        const gameArea = document.getElementById('gameArea');
+        const letterGrid = document.getElementById('letterGrid');
+        const gameStatus = document.getElementById('gameStatus');
+        const gameTimer = document.getElementById('gameTimer');
+        const gameResult = document.getElementById('gameResult');
+        const resetBtn = document.getElementById('resetGameBtn');
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function startGame() {
+            gameArea.classList.add('active');
+            gameResult.textContent = '';
+            resetBtn.style.display = 'none';
+            currentWord = '';
+            gameActive = true;
+            timer = 10;
+            gameTimer.textContent = '⏱️ ' + timer + ' сек';
+            gameStatus.textContent = 'Собери слово: HORIKITA';
+
+            const letters = targetWord.split('');
+            // добавляем лишние буквы для сложности
+            const extra = ['X', 'P', 'Z', 'M', 'L', 'K', 'O', 'A', 'R'];
+            const pool = shuffleArray([...letters, ...extra.slice(0, 4)]);
+            letterGrid.innerHTML = '';
+            pool.forEach(ch => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.textContent = ch;
+                btn.dataset.letter = ch;
+                btn.addEventListener('click', () => {
+                    if (!gameActive) return;
+                    if (btn.classList.contains('disabled')) return;
+                    const expected = targetWord[currentWord.length];
+                    if (ch === expected) {
+                        btn.classList.add('disabled');
+                        currentWord += ch;
+                        gameStatus.textContent = 'Собрано: ' + currentWord;
+                        if (currentWord === targetWord) {
+                            gameActive = false;
+                            clearInterval(timerInterval);
+                            gameResult.textContent = '🎉 ТЫ СОБРАЛ! КРАСАВА!';
+                            resetBtn.style.display = 'inline-block';
+                        }
+                    } else {
+                        gameStatus.textContent = '❌ Не та буква! Попробуй ещё.';
+                        btn.style.background = '#cc3333';
+                        setTimeout(() => btn.style.background = '', 300);
+                    }
+                });
+                letterGrid.appendChild(btn);
+            });
+
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timer--;
+                gameTimer.textContent = '⏱️ ' + timer + ' сек';
+                if (timer <= 0) {
+                    gameActive = false;
+                    clearInterval(timerInterval);
+                    gameStatus.textContent = '💀 Время вышло!';
+                    gameResult.textContent = 'Попробуй ещё раз, бро.';
+                    resetBtn.style.display = 'inline-block';
+                    document.querySelectorAll('.letter-btn').forEach(b => b.classList.add('disabled'));
+                }
+            }, 1000);
+        }
+
+        resetBtn.addEventListener('click', startGame);
+
+        // запускаем игру при загрузке с небольшой задержкой
+        setTimeout(startGame, 800);
+    </script>
 </body>
 </html>
